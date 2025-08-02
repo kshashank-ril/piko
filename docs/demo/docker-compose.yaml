@@ -1,0 +1,55 @@
+version: "3.4"
+services:
+  piko-1:
+    image: ghcr.io/andydunstall/piko:latest
+    command:
+      - server
+      - --config.path
+      - /etc/piko.yaml
+      - --cluster.node-id-prefix
+      - piko-1-
+    hostname: piko-1
+    volumes:
+      - ./config/piko.yaml:/etc/piko.yaml
+
+  piko-2:
+    image: ghcr.io/andydunstall/piko:latest
+    command:
+      - server
+      - --config.path
+      - /etc/piko.yaml
+      - --cluster.node-id-prefix
+      - piko-2-
+    hostname: piko-2
+    volumes:
+      - ./config/piko.yaml:/etc/piko.yaml
+
+  piko-3:
+    image: ghcr.io/andydunstall/piko:latest
+    command:
+      - server
+      - --config.path
+      - /etc/piko.yaml
+      - --cluster.node-id-prefix
+      - piko-3-
+    hostname: piko-3
+    volumes:
+      - ./config/piko.yaml:/etc/piko.yaml
+
+  load-balancer:
+    image: caddy:latest
+    volumes:
+      - ./config/Caddyfile:/etc/caddy/Caddyfile:ro
+    depends_on:
+      - "piko-1"
+      - "piko-2"
+      - "piko-3"
+    ports:
+      - 8000:8000
+      - 8001:8001
+      - 8002:8002
+
+networks:
+  piko-network:
+    driver: bridge
+    name: piko-network
