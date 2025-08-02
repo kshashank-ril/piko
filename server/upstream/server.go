@@ -333,7 +333,7 @@ func (s *Server) callStartAPI(endpointID string) {
 	client := &http.Client{
 		Timeout: 10 * time.Second,
 	}
-	url := fmt.Sprintf("http://%s:1111/start?port=%d", serverIP, port)
+	url := fmt.Sprintf("http://%s:1111/hooks/start?port=%d", serverIP, port)
 	resp, err := client.Get(url)
 	if err != nil {
 		s.logger.Error(
