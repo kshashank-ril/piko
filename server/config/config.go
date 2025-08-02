@@ -382,6 +382,8 @@ advertise address of '10.26.104.14:8000'.`,
 	c.Rebalance.RegisterFlags(fs, "upstream")
 
 	c.TLS.RegisterFlags(fs, "upstream")
+
+	c.ServerMapping.RegisterFlags(fs, "upstream")
 }
 
 type AdminConfig struct {
